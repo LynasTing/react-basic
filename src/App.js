@@ -1,3 +1,6 @@
+import { useState } from "react";
+import './index.css'
+
 function getName() {
   return '南京'
 }
@@ -82,7 +85,7 @@ function App4() {
 /**
  * 事件绑定
  */
-function App( ) {
+function App5( ) {
   // 事件默认参数 e
   // const handleClick = (e) => {
   //   console.log(`e + ::>>`, e)
@@ -101,6 +104,55 @@ function App( ) {
   return (
     <div className="App">
       <div onClick={(e) => handleClick(e, 'Lynas')}>click me</div>
+    </div>
+  )
+}
+
+/**
+ * 组件
+ */
+function Button () {
+  return <button>Click me !</button>
+}
+
+function App6() {
+  return (
+    <div className="App">
+      <Button />
+    </div>
+  )
+}
+
+/**
+ * useState
+ */
+
+function App7() {
+  const [count, setCount] = useState(0)
+  const handleClick = () => {
+    setCount(count + 1)
+  }
+  return (
+    <div>
+      <button onClick={handleClick}>Click me !{count}</button>
+    </div>
+  )
+}
+
+/**
+ * 样式
+ */
+function App() {
+  const style = {
+    color: 'red',
+    fontSize: '24px'
+  }
+  return (
+    <div className="App">
+      {/* 行内 */}
+      <div style={style}>你好</div>
+      {/* 类名控制 */}
+      <div className="tip">世界</div>
     </div>
   )
 }
