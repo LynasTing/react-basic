@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './App.scss'
 import avatar from './images/bozai.png'
 import _ from 'lodash'
 import classnames from 'classnames'
+import { v4 as uuidV4 } from 'uuid'
+import dayjs from 'dayjs'
 
 /**
  * 评论列表的渲染和操作
@@ -78,7 +80,7 @@ const App = () => {
   /**
    * 删除
    */
-  const handleClick = (id) => {
+  const handleClickDelete = (id) => {
     setComment(comment.filter(item => item.rpid !== id))
   }
 
@@ -90,6 +92,35 @@ const App = () => {
   const handleClickTab = (type) => {
     setType(type)
     setComment(_.orderBy(comment, type, 'desc'))
+  }
+
+  // 评论内容
+  const [content, setContent] = useState()
+
+  // 文本域DOM
+  const textareaRef = useRef(null)
+
+  /**
+   * 发表评论
+   */
+  const handleClickPublish = () => {
+    if(!content) return
+    setComment([
+      ...comment,
+      {
+        rpid: uuidV4(),
+        user: {
+          uid: '13258165',
+          avatar: '',
+          uname: '是我哦',
+        },
+        content,
+        ctime: dayjs(new Date()).format('MM-DD hh:mm'),
+        like: 89,
+      }
+    ])
+    setContent('')
+    textareaRef.current.focus()
   }
   return (
     <div className="app">
@@ -127,12 +158,15 @@ const App = () => {
           <div className="reply-box-wrap">
             {/* 评论框 */}
             <textarea
+              value={content}
+              ref={textareaRef}
+              onChange={(e) => setContent(e.target.value)}
               className="reply-box-textarea"
               placeholder="发一条友善的评论"
             />
             {/* 发布按钮 */}
             <div className="reply-box-send">
-              <div className="send-text">发布</div>
+              <div className="send-text" onClick={() => handleClickPublish()}>发布</div>
             </div>
           </div>
         </div>
@@ -155,7 +189,7 @@ const App = () => {
                   <div className="reply-info">
                     <span className="reply-time">{item.ctime}</span>
                     <span className="reply-time">点赞数:{item.like}</span>
-                    {user.uid === item.user.uid && <span className="delete-btn" onClick={() => handleClick(item.rpid)}>删除</span>}
+                    {user.uid === item.user.uid && <span className="delete-btn" onClick={() => handleClickDelete(item.rpid)}>删除</span>}
                   </div>
                 </div>
               </div>
