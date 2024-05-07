@@ -1,30 +1,45 @@
-import { useSelector, useDispatch } from "react-redux"
-import { increment, decrement, addToNum } from '../store/modules/counterStore'
-import { fetchChannels } from "../store/modules/channelStore"
-import { useEffect } from "react"
+import NavBar from './components/NavBar'
+import Menu from './components/Menu'
+import Cart from './components/Cart'
+import FoodsCategory from './components/FoodsCategory'
 
-function App() {
-  // 拿到store-module的实例
-  const { count } = useSelector(state => state.counter)
-  const { channels } = useSelector(state => state.channel)
+import './App.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchFoodsList } from './store/modules/takewayStore'
+
+const App = () => {
   const dispatch = useDispatch()
-
-  /**
-   * 使用useEffect调接口
-   */
   useEffect(() => {
-    dispatch(fetchChannels())
-  }, [])
+    dispatch(fetchFoodsList())
+  }, [dispatch])
+
+  const { foodsList, activeIndex } = useSelector(state => state.foods)
+
   return (
-    <div className="App">
-      <button onClick={() => dispatch(decrement())}> - </button>
-      <div>{count}</div>
-      <button onClick={() => dispatch(increment())}> + </button>
-      <button onClick={() => dispatch(addToNum(20))}>add to 20</button>
-      <ul>
-        {channels.map(item => <li key={item.id}>{item.name}</li> )}
-      </ul>
+    <div className="home">
+      {/* 导航 */}
+      <NavBar />
+
+      {/* 内容 */}
+      <div className="content-wrap">
+        <div className="content">
+          <Menu />
+          <div className="list-content">
+            <div className="goods-list">
+              {/* 外卖商品列表 */}
+              {foodsList.map((item, i) => {
+                return (activeIndex === i && <FoodsCategory key={item.tag} name={item.name} foods={item.foods}/> )
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 购物车 */}
+      <Cart />
     </div>
   )
 }
+
 export default App

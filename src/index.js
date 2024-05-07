@@ -1,7 +1,7 @@
 // index.js 是项目的入口，整个项目从这里开始运行
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import store from './store';
+import store from './day_03/store';
 import { Provider } from 'react-redux';
 
 // App 是项目的根组件
