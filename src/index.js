@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import store from './day_03/store';
 import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom'
+import router from './day_04/router';
 
 // App 是项目的根组件
 import App from './day_03/App';
@@ -12,7 +14,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );
