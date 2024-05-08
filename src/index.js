@@ -4,17 +4,15 @@ import ReactDOM from 'react-dom/client';
 import store from './day_03/store';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom'
-import router from './day_04/router';
+import router from './day_04/bill/router';
 
 // App 是项目的根组件
-import App from './day_03/App';
+// import App from './day_03/App';
 
 // 渲染根组件到#root
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );
