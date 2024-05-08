@@ -5,6 +5,7 @@ import store from './day_03/store';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom'
 import router from './day_04/bill/router';
+import '@/day_04/bill/style/theme.css'
 
 // App 是项目的根组件
 // import App from './day_03/App';
