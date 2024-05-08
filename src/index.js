@@ -1,7 +1,7 @@
 // index.js 是项目的入口，整个项目从这里开始运行
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import store from './day_03/store';
+import store from './day_04/bill/store';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom'
 import router from './day_04/bill/router';
