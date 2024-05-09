@@ -1,0 +1,24 @@
+.month {
+  height: 240px;
+  background-color: rgba(245, 245, 245, 0.9);
+  &-background-img {
+    background-image: url(https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/reactbase/ka/month-bg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  .arrow {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-top: -3px;
+    margin-left: 9px;
+    border-top: 2px solid #121826;
+    border-left: 2px solid #121826;
+    transform: rotate(225deg);
+    transform-origin: center;
+    transition: all 0.3s;
+  }
+  .expand {
+    transform: translate(0, 2px) rotate(45deg);
+  }
+}

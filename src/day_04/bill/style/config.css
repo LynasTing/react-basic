@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+}
+.flex {
+  display: flex;
+}
+.col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.h-full {
+  height: 100%;
+}
+.my-base {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.mt-base {
+  margin-top: 16px;
+}
+.mb-base {
+  margin-bottom: 16px;
+}
+.px-base {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.py-base {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.text-xl {
+  font-size: 18px;
+}
+.text-bold {
+  font-weight: 700;
+}
