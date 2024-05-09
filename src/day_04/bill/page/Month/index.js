@@ -1,7 +1,7 @@
 import './index.scss'
 import classNames from 'classnames'
 import { NavBar, DatePicker } from 'antd-mobile'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import _ from 'lodash'
 import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
@@ -17,7 +17,9 @@ const Month = () => {
    * 选择记账日期
    */
   const handleSelectDate = e => {
-    setCurrentDate(dayjs(e).format('YYYY-MM'))
+    const formatTime = dayjs(e).format('YYYY-MM')
+    setCurrentDate(formatTime)
+    setSelectMonthList(monthGroup[formatTime])
   }
 
   const { billList } = useSelector(state => state.bill)
@@ -28,7 +30,31 @@ const Month = () => {
     return _.groupBy(billList, item => dayjs(item.date).format('YYYY-MM'))
   }, [billList])
 
-  console.log(`monthGroup + ::>>`, monthGroup)
+
+  // 已选择的某月的账单
+  const [selectMonthList, setSelectMonthList] = useState([])
+
+  /**
+   * 计算出当月的收支
+   */
+  const selectMonthBill = useMemo(() => {
+    if(!monthGroup[currentDate]) return
+    const income = monthGroup[currentDate].filter(item => item.type === 'income').reduce((a, c) => a + c.money, 0)
+    const pay = monthGroup[currentDate].filter(item => item.type === 'pay').reduce((a, c) => a + c.money, 0)
+    return {
+      income, 
+      pay,
+      total: income + pay
+    }
+  }, [selectMonthList])
+
+  /**
+   * 默认显示当前月账单信息
+   */
+  useEffect(() => {
+    const formatTime = dayjs().format('YYYY-MM')
+    if(monthGroup[formatTime]) setSelectMonthList(monthGroup[formatTime])
+  }, [monthGroup])
 
   return (
     <div className="month my-base">
@@ -40,16 +66,16 @@ const Month = () => {
         </div>
         <div className="flex justify-around">
           <div className="flex col items-center">
-            <span className='text-xl text-bold'>100</span>
+            <span className='text-xl text-bold'>{selectMonthBill?.pay.toFixed(2) ?? 0}</span>
             <p>支出</p>
           </div>
           <div className="flex col items-center">
-            <span className='text-xl text-bold'>200</span>
+            <span className='text-xl text-bold'>{selectMonthBill?.income.toFixed(2) ?? 0}</span>
             <p>收入</p>
           </div>
           <div className="flex col items-center">
-            <span className='text-xl text-bold'>200</span>
-            <p>支出</p>
+            <span className='text-xl text-bold'>{selectMonthBill?.total.toFixed(2) ?? 0}</span>
+            <p>结余</p>
           </div>
         </div>
       </div>
