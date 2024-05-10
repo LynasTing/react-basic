@@ -4,77 +4,81 @@ import { NavBar, DatePicker } from 'antd-mobile'
 import { useEffect, useMemo, useState } from 'react'
 import _ from 'lodash'
 import dayjs from 'dayjs'
+import DailyBill from './components/DayBill'
 import { useSelector } from 'react-redux'
 
 const Month = () => {
-  // 控制日期选择器的隐藏
   const [showDatePicker, setShowDatePicker] = useState(false)
 
-  // 当前选择时间
-  const [currentDate, setCurrentDate] = useState(() => dayjs().format('YYYY-MM'))
+  const [dateText, setDateText] = useState(dayjs().format('YYYY-MM'))
 
-  /**
-   * 选择记账日期
-   */
-  const handleSelectDate = e => {
-    const formatTime = dayjs(e).format('YYYY-MM')
-    setCurrentDate(formatTime)
-    setSelectMonthList(monthGroup[formatTime])
+  const [selectMonthBill, setSelectMonthBill] = useState([])
+
+  const handleSelectDate = (e) => {
+    const time = dayjs(e).format('YYYY-MM')
+    // 展示的文本
+    setDateText(time)
+    // 选择月的数据
+    setSelectMonthBill(monthGroup[time] ?? [])
   }
 
   const { billList } = useSelector(state => state.bill)
-  /**
-   * 账单数据平铺
-   */
+
+  // Memo一般用来对数据进行二次处理，类似于vue的computed
   const monthGroup = useMemo(() => {
     return _.groupBy(billList, item => dayjs(item.date).format('YYYY-MM'))
   }, [billList])
 
-
-  // 已选择的某月的账单
-  const [selectMonthList, setSelectMonthList] = useState([])
-
   /**
-   * 计算出当月的收支
+   * 拿到选择月或者当前月的数据
    */
-  const selectMonthBill = useMemo(() => {
-    if(!monthGroup[currentDate]) return
-    const income = monthGroup[currentDate].filter(item => item.type === 'income').reduce((a, c) => a + c.money, 0)
-    const pay = monthGroup[currentDate].filter(item => item.type === 'pay').reduce((a, c) => a + c.money, 0)
+  const monthResult = useMemo(() => {
+    const pay = selectMonthBill.filter(item => item.type === 'pay').reduce((p, n) => p + n.money, 0)
+    const income = selectMonthBill.filter(item => item.type === 'income').reduce((p, n) => p + n.money, 0)
     return {
-      income, 
       pay,
-      total: income + pay
+      income,
+      total: pay + income
     }
-  }, [selectMonthList])
+  }, [selectMonthBill])
 
   /**
-   * 默认显示当前月账单信息
+   * 默认数据
    */
   useEffect(() => {
-    const formatTime = dayjs().format('YYYY-MM')
-    if(monthGroup[formatTime]) setSelectMonthList(monthGroup[formatTime])
+    const defaultV = monthGroup[dayjs().format('YYYY-MM')]
+    if(defaultV) setSelectMonthBill(defaultV)
   }, [monthGroup])
 
+  // 日账单列表
+  const dayGroup = useMemo(() => {
+    const groupData = _.groupBy(selectMonthBill, item => dayjs(item.date).format('YYYY-MM-DD'))
+    const keys = Object.keys(groupData)
+    return {
+      groupData,
+      keys
+    }
+  }, [selectMonthBill])
+  console.log(`dayGroup + ::>>`, dayGroup)
   return (
-    <div className="month my-base">
+    <div className="month ">
       <NavBar backArrow={false}>月度收支</NavBar>
       <div className="month-background-img h-full px-base py-base">
         <div className='flex items-center mb-base text-bold' onClick={() => setShowDatePicker(true)}>
-          <span>{ currentDate }月账单</span>
+          <span>{dateText}账单</span>
           <span className={classNames('arrow', showDatePicker && 'expand')}></span>
         </div>
         <div className="flex justify-around">
           <div className="flex col items-center">
-            <span className='text-xl text-bold'>{selectMonthBill?.pay.toFixed(2) ?? 0}</span>
+            <span className='text-xl text-bold'>{monthResult?.pay.toFixed(2) ?? 0}</span>
             <p>支出</p>
           </div>
           <div className="flex col items-center">
-            <span className='text-xl text-bold'>{selectMonthBill?.income.toFixed(2) ?? 0}</span>
+            <span className='text-xl text-bold'>{monthResult?.income.toFixed(2) ?? 0}</span>
             <p>收入</p>
           </div>
           <div className="flex col items-center">
-            <span className='text-xl text-bold'>{selectMonthBill?.total.toFixed(2) ?? 0}</span>
+            <span className='text-xl text-bold'>{monthResult?.total.toFixed(2) ?? 0}</span>
             <p>结余</p>
           </div>
         </div>
@@ -87,7 +91,12 @@ const Month = () => {
         onClose={() => setShowDatePicker(false)}
         onCancel={() => setShowDatePicker(false)}
         onConfirm={e => handleSelectDate(e)}
-      /> 
+      />
+      {
+        dayGroup.keys.map(item => {
+          return <DailyBill key={item} date={item} dayBill={dayGroup.groupData[item]} />
+        })
+      }
     </div>
   )
 }

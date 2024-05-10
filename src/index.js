@@ -7,6 +7,7 @@ import { RouterProvider } from 'react-router-dom'
 import router from './day_04/bill/router';
 import '@/day_04/bill/style/theme.css'
 import '@/day_04/bill/style/config.css'
+import '@/style/index.scss'
 
 // App 是项目的根组件
 // import App from './day_03/App';

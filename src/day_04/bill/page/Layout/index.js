@@ -41,11 +41,11 @@ const Layout = () => {
     navigate(path)
   }
   return (
-    <div className='layout'>
+    <div className='layout bg-gray-200 h-screen'>
       <div className='container'>
         <Outlet />
       </div>
-      <div className='footer'>
+      <div className='footer bg-white'>
         <TabBar onChange={handleChangeRouter}>
           {tabs.map(item => (<TabBar.Item key={item.key} icon={item.icon} title={item.title} />))}
         </TabBar>

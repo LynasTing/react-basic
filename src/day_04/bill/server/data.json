@@ -45,35 +45,35 @@
     {
       "type": "income",
       "money": 10000,
-      "date": "2024-05-20T06:45:54.004Z",
+      "date": "2024-04-20T06:45:54.004Z",
       "useFor": "salary",
       "id": 7
     },
     {
       "type": "pay",
       "money": -10,
-      "date": "2024-05-22T07:17:12.531Z",
+      "date": "2024-04-22T07:17:12.531Z",
       "useFor": "drinks",
       "id": 8
     },
     {
       "type": "pay",
       "money": -20,
-      "date": "2024-05-22T07:51:20.421Z",
+      "date": "2024-04-22T07:51:20.421Z",
       "useFor": "dessert",
       "id": 9
     },
     {
       "type": "pay",
       "money": -100,
-      "date": "2024-05-22T09:18:12.898Z",
+      "date": "2024-04-22T09:18:12.898Z",
       "useFor": "drinks",
       "id": 17
     },
     {
       "type": "pay",
       "money": -50,
-      "date": "2024-05-23T09:11:23.312Z",
+      "date": "2024-04-23T09:11:23.312Z",
       "useFor": "food",
       "id": 18
     },
