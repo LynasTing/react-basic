@@ -59,7 +59,6 @@ const Month = () => {
       keys
     }
   }, [selectMonthBill])
-  console.log(`dayGroup + ::>>`, dayGroup)
   return (
     <div className="month ">
       <NavBar backArrow={false}>月度收支</NavBar>
