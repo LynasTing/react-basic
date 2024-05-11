@@ -9,11 +9,14 @@ const billStore = createSlice({
   reducers: {
     setBillList(state, action) {
       state.billList = action.payload
+    },
+    addBill(state, action) {
+      state.billList.push(action.payload)
     }
   }
 })
 
-const { setBillList } = billStore.actions
+const { setBillList, addBill } = billStore.actions
 
 /**
  * 获取账单列表
@@ -25,6 +28,16 @@ const getBillList = () => {
   }
 }
 
-export { getBillList }
+/**
+ * 调用接口新增账单
+ */
+const addBillAPI = (data) => {
+  return async () => {
+    const res = await axios.post('http://localhost:4875/ka', data)
+    addBill(res.data)
+  }
+}
+
+export { getBillList, addBillAPI }
 
 export default billStore.reducer

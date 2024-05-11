@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import '../../index.scss'
 import classNames from 'classnames'
+import Icon from '@/day_04/bill/components/Icon'
 
 
 const DailyBill = ({ date, dayBill }) => {
@@ -40,6 +41,7 @@ const DailyBill = ({ date, dayBill }) => {
       <div className="content bg-white py-3 px-3 rounded" style={{ display: visible ? 'block' : 'none' }}>
         {dayBill.map(item => {
           return <div key={item.id} className="flex justify-between items-center mx-3">
+            <Icon type={item.useFor} />
             <div>{item.useFor}</div>
             <div className='text-red-400'>{item.money}</div>
           </div>
