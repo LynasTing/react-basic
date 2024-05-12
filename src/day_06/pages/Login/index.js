@@ -32,7 +32,7 @@ const Login = () => {
               message: '请输入正确的手机号'
             }
           ]}>
-            <Input placeholder="请输入手机号" />
+            <Input placeholder="请输入手机号" maxLength={11} />
           </Form.Item>
           <Form.Item name='code' rules={[
             {
