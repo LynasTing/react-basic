@@ -7,7 +7,6 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "antd-mobile": "^5.36.0",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.11",
@@ -49,6 +48,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "antd": "^5.17.0",
     "autoprefixer": "^10.4.19",
     "json-server": "^1.0.0-alpha.23",
     "postcss": "^8.4.38",
