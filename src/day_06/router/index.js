@@ -8,7 +8,7 @@ const Login = lazy(() => import('@/day_06/pages/Login'))
 const router = createBrowserRouter([
   {
     path: '',
-    element:<Suspense fallback="加载中"> <AuthRouter><Layout /></AuthRouter></Suspense>
+    element:<AuthRouter><Layout /></AuthRouter>
   },
   {
     path: '/login',

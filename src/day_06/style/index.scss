@@ -1,3 +1,12 @@
+html, body, #root {
+  height: 100%;
+}
 .login-page {
   background-image: url('~@/day_06/assets/login.png');
+}
+.ant-layout {
+  height: 100%;
+}
+.ant-layout-header {
+  padding: 0 !important;
 }
