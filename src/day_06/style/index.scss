@@ -10,3 +10,8 @@ html, body, #root {
 .ant-layout-header {
   padding: 0 !important;
 }
+.publish-quill {
+  .ql-editor {
+    min-height: 300px;
+  }
+}
