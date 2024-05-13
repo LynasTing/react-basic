@@ -1,20 +1,29 @@
-import { _request, setToken as _setToken, getToken } from "@/day_06/utils";
+import { _request, setToken as _setToken, getToken, removeToken } from "@/day_06/utils";
 import { createSlice } from "@reduxjs/toolkit";
 
 const userStore = createSlice({
   name: 'user',
   initialState: {
-    token: getToken() ?? ''
+    token: getToken() ?? '',
+    userInfo: {}
   },
   reducers: {
     setToken(state, action) {
       state.token = action.payload
       _setToken(action.payload)
+    },
+    setUserInfo(state, action) {
+      state.userInfo = action.payload
+    },
+    clearUserInfo(state) {
+      state.token = ''
+      state.userInfo = {}
+      removeToken()
     }
   }
 })
 
-const { setToken } = userStore.actions
+const { setToken, setUserInfo, clearUserInfo } = userStore.actions
 
 /**
  * 获取token
@@ -22,11 +31,20 @@ const { setToken } = userStore.actions
 const fetchToken = params => {
   return async dispatch => {
     const res = await _request.post('/authorizations', params)
-    console.log(`res + ::>>`, res)
     dispatch(setToken(res.data.token))
   }
 }
 
-export { setToken, fetchToken }
+/**
+ * 获取用户信息
+ */
+const fetchUserInfo = () => {
+  return async dispatch => {
+    const res = await _request.get('/user/profile')
+    dispatch(setUserInfo(res.data))
+  }
+}
+
+export { fetchToken, fetchUserInfo, clearUserInfo }
 
 export default userStore.reducer

@@ -16,7 +16,7 @@ export const getToken = () => {
  * 存token
  */
 export const removeToken = () => {
-  localStorage.removeItemItem('token')
+  localStorage.removeItem('token')
 }
 
 
