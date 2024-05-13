@@ -1,8 +1,10 @@
+import BarChart from "./components/BarChart"
+
 const Home = () => {
   return (
-    <div>
-      <p>Here is Home</p>
-    </div>
+    <>
+      <BarChart title="前端三大框架使用度" />
+    </>
   )
 }
 
