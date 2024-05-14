@@ -10,6 +10,17 @@ export const getChannelAPI = () => {
 }
 
 /**
+ * 获取文章列表
+ */
+export const getArticleListAPI = (params) => {
+  return _request({
+    url: '/mp/articles',
+    method: 'GET',
+    params
+  })
+}
+
+/**
  * 发表文章
  * @param draft true 草稿 false 发布
  */

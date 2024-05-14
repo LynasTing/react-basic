@@ -31,7 +31,7 @@ const Publish = () => {
       message.success('上传成功')
       setTimeout(() => {
         window.location.reload()
-      }, 2000)
+      }, 1000)
     }
   }
 
