@@ -3,27 +3,13 @@ import { Link } from "react-router-dom"
 import { PlusOutlined } from '@ant-design/icons'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { addArticleAPI, getChannelAPI } from "@/day_06/apis/article"
-import router from "@/day_06/router"
+import { useGetChannels } from '@/day_06/Hooks/useGetChannels'
 
 const Publish = () => {
   // 频道列表
-  const [channels, setChannels] = useState([])
-
-  useEffect(() => {
-    const getChannels = async () => {
-      const res = await getChannelAPI()
-      const newRes = res?.data?.channels.map(item => {
-        return {
-          label: item.name,
-          value: item.id
-        }
-      })
-      setChannels(newRes)
-    }
-    getChannels()
-  }, [])
+  const channels = useGetChannels()
 
   /**
    * 提交表单

@@ -4,10 +4,13 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import img404 from '@/day_06/assets/error.png'
 import { useState } from 'react'
+import { useGetChannels } from '@/day_06/Hooks/useGetChannels'
 
 const { RangePicker } = DatePicker
 
 const Article = () => {
+  // 频道列表
+  const channels = useGetChannels()
 
   // 状态枚举
   const status = {
@@ -105,7 +108,7 @@ const Article = () => {
         <Form.Item label="渠道" className='w-60'>
           <Select
             placeholder="请选择渠道"
-            options={[{ label: '你好', value: 1 }]}
+            options={channels}
           />
         </Form.Item>
         <Form.Item label="日期">
