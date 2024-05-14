@@ -31,3 +31,14 @@ export const addArticleAPI = (data) => {
     data
   })
 }
+
+/**
+ * 删除文章
+ * @param id 文章id
+ */
+export const delArticleAPI = id => {
+  return _request({
+    url: `/mp/articles/${id}`,
+    method: 'DELETE'
+  })
+}

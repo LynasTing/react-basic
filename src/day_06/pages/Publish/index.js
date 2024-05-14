@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 import { useState } from "react"
-import { addArticleAPI, getChannelAPI } from "@/day_06/apis/article"
+import { addArticleAPI } from "@/day_06/apis/article"
 import { useGetChannels } from '@/day_06/Hooks/useGetChannels'
 
 const Publish = () => {

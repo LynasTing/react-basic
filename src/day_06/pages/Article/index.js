@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import img404 from '@/day_06/assets/error.png'
 import { useEffect, useState } from 'react'
 import { useGetChannels } from '@/day_06/Hooks/useGetChannels'
-import { getArticleListAPI } from '@/day_06/apis/article'
+import { getArticleListAPI, delArticleAPI } from '@/day_06/apis/article'
 
 const { RangePicker } = DatePicker
 
@@ -70,6 +70,7 @@ const Article = () => {
             description="确认要删除当前文章吗?"
             okText="Yes"
             cancelText="No"
+            onConfirm={() => handleDeleteArticle(data)}
           >
             <Button
               type="primary"
@@ -145,6 +146,17 @@ const Article = () => {
       ...params,
       page
     })
+  }
+
+  /**
+   * 删除文章
+   */
+  const handleDeleteArticle = e => {
+    delArticleAPI(e.id)
+      .then(() => {
+        message.success('删除成功！')
+        setParams({ ...params })
+      })
   }
 
   return <>
