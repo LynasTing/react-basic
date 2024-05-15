@@ -1,7 +1,7 @@
 import { Card, Form, Breadcrumb, Button, Select, DatePicker, Radio, message, Tag, Table, Popconfirm } from 'antd'
 import locale from 'antd/es/date-picker/locale/zh_CN'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import img404 from '@/day_06/assets/error.png'
 import { useEffect, useState } from 'react'
 import { useGetChannels } from '@/day_06/Hooks/useGetChannels'
@@ -10,6 +10,7 @@ import { getArticleListAPI, delArticleAPI } from '@/day_06/apis/article'
 const { RangePicker } = DatePicker
 
 const Article = () => {
+  const navigate = useNavigate()
   // 频道列表
   const channels = useGetChannels()
 
@@ -64,7 +65,12 @@ const Article = () => {
       title: '操作',
       render: data => {
         return <div className='flex justify-around'>
-          <Button type="primary" shape="circle" icon={<EditOutlined />} />
+          <Button 
+            type="primary" 
+            shape="circle" 
+            icon={<EditOutlined />} 
+            onClick={() => navigate(`/publish?id=${data.id}`)}
+          />
           <Popconfirm
             title="删除文章"
             description="确认要删除当前文章吗?"

@@ -1,10 +1,10 @@
 import { Card, Form, Input, Button, Breadcrumb, Select, Radio, Upload, message } from "antd"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { PlusOutlined } from '@ant-design/icons'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
-import { useState } from "react"
-import { addArticleAPI } from "@/day_06/apis/article"
+import { useEffect, useState } from "react"
+import { addArticleAPI, echoArticleAPI } from "@/day_06/apis/article"
 import { useGetChannels } from '@/day_06/Hooks/useGetChannels'
 
 const Publish = () => {
@@ -47,12 +47,41 @@ const Publish = () => {
     setImageList(e.fileList)
   }
 
+  const [searchParams] = useSearchParams()
+
+  // 文章id
+  const articleId = searchParams.get('id')
+
+  // form实例
+  const [articleForm] = Form.useForm()
+
+  useEffect(() => {
+    /**
+     * 文章数据回显
+     */
+    const echoArticle = async () => {
+      const res = await echoArticleAPI(articleId)
+      const { data } = res
+      const { cover } = data
+      articleForm.setFieldsValue({
+        ...data,
+        type: cover.type
+      })
+      setImageType(cover.type)
+      if(cover.images?.length) {
+        setImageList(cover.images.map(url => {
+          return { url }
+        }))
+      }
+    }
+    if(articleId) echoArticle()
+  }, [articleId, articleForm])
   return <>
     <Card title={<Breadcrumb items={[
       { title: <Link to="/">首页</ Link>},
-      { title: "发布文章"}
+      { title: `${articleId ? '编辑' : '发布'}文章`}
     ]} />}>
-      <Form className="pl-20 py-6" onFinish={handleSubmit} initialValues={1}>
+      <Form className="pl-20 py-6" onFinish={handleSubmit} initialValues={1} form={articleForm}>
         <Form.Item label="标题" name="title" rules={[{ required: false, message: '请输入文章标题'}]}>
           <Input placeholder="请输入文章标题" className="w-96" />
         </Form.Item>
@@ -79,6 +108,7 @@ const Publish = () => {
             maxCount={imageType}
             action='http://geek.itheima.net/v1_0/upload'
             name="image"
+            fileList={imageList}
             onChange={handleUploadChange}
           >
             <div className="my-2">

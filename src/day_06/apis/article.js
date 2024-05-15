@@ -35,10 +35,19 @@ export const addArticleAPI = (data) => {
 /**
  * 删除文章
  * @param id 文章id
- */
+ */ 
 export const delArticleAPI = id => {
   return _request({
     url: `/mp/articles/${id}`,
     method: 'DELETE'
+  })
+}
+
+/**
+ * 文章回显
+ */
+export const echoArticleAPI = id => {
+  return _request({
+    url: `/mp/articles/${id}`,
   })
 }
