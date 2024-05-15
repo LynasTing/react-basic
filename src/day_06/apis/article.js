@@ -51,3 +51,14 @@ export const echoArticleAPI = id => {
     url: `/mp/articles/${id}`,
   })
 }
+
+/**
+ * 更新文章
+ */
+export const putArticleAPI = data => {
+  return _request({
+    url: `/mp/articles/${data.id}?draft=false`,
+    method: 'PUT',
+    data
+  })
+}

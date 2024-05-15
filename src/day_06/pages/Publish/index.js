@@ -1,13 +1,14 @@
 import { Card, Form, Input, Button, Breadcrumb, Select, Radio, Upload, message } from "antd"
-import { Link, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams, useNavigate } from "react-router-dom"
 import { PlusOutlined } from '@ant-design/icons'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 import { useEffect, useState } from "react"
-import { addArticleAPI, echoArticleAPI } from "@/day_06/apis/article"
+import { addArticleAPI, echoArticleAPI, putArticleAPI } from "@/day_06/apis/article"
 import { useGetChannels } from '@/day_06/Hooks/useGetChannels'
 
 const Publish = () => {
+  const navigate = useNavigate()
   // 频道列表
   const channels = useGetChannels()
 
@@ -17,20 +18,26 @@ const Publish = () => {
   const handleSubmit = async (v) => {
     if(imageType !== imageList.length) return message.warning('请上传与类型相符的图片数量')
     const { title, content, channel_id } = v
-
-    const res = await addArticleAPI({
+    const params = {
       title,
       content,
       cover: {
         type: imageType,
-        images: imageList.map(item => item.response.data.url)
+        images: imageList.map(item => {
+          return item.response ? item.response.data.url : item.url
+        })
       },
       channel_id
+    }
+    const fn = articleId ? putArticleAPI : addArticleAPI
+    const res = await fn(articleId ? params : {
+      ...params,
+      id: articleId
     })
     if(res.message === 'OK') {
       message.success('上传成功')
       setTimeout(() => {
-        window.location.reload()
+        window.location.replace('/publish')
       }, 1000)
     }
   }
@@ -76,6 +83,7 @@ const Publish = () => {
     }
     if(articleId) echoArticle()
   }, [articleId, articleForm])
+
   return <>
     <Card title={<Breadcrumb items={[
       { title: <Link to="/">首页</ Link>},
@@ -123,7 +131,7 @@ const Publish = () => {
             className="publish-quill"
           />
         </Form.Item>
-        <Button className="ml-11" type="primary" htmlType="submit" >发布文章</Button>
+        <Button className="ml-11" type="primary" htmlType="submit">{`${articleId ? '更新' : '发布'}文章`}</Button>
       </Form>
     </Card>
   </>
