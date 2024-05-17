@@ -8,12 +8,14 @@ import '@/style/index.scss'
 import '@/day_06/style/index.scss'
 import { Provider } from 'react-redux';
 import store from '@/day_06/store'
+import App from '@/day_07/App'
 
 
 // 渲染根组件到#root
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
+  <App />
+  // <Provider store={store}>
+  //   <RouterProvider router={router} />
+  // </Provider>
 );
