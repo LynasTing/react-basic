@@ -1,36 +1,35 @@
-import { useReducer } from "react"
 import { Button } from "antd"
-
+import { useMemo, useState } from "react"
 
 /**
- * 1. 定义reducer函数 根据不同的action.type 返回不同的值
+ * 计算斐波那契数列之和
  */
-const myReducer = (state, action) => {
-  switch(action.type) {
-    case 'INC':
-      return state + 1
-    case 'DEC': 
-      return state - 1
-    case 'Set':
-      return action.payload
-    default: 
-      return state
+const fib = n => {
+  console.log(`斐波执行了 + ::>>`, )
+  if(n < 3) {
+    return 1
   }
+  return fib(n - 2) + fib(n - 1)
 }
 
 function App() {
-  // 2. 组件中调用useReducer
-  const [count, dispatch] = useReducer(myReducer, 0)
-
+  const [count1, setCount1] = useState(0)
+  const [count2, setCount2] = useState(0)
+  /**
+   * 一般用于在组件重新渲染的时候缓存计算的结果
+   * 这里如果不用useMemo，那么setCount2的执行也会影响fib函数去执行
+   */
+  const result = useMemo(() => {
+    return fib(count1)
+  }, [count1])
   return <>
-    <div className="flex py-4 px-4">
-      {/* 3. 调用dispatch 通知reducer产生一个新的状态 使用新状态更新UI */}
-      <Button onClick={() => dispatch({ type: 'INC'})}>+</Button>
-      <p className="mx-4">{count}</p>
-      <Button onClick={() => dispatch({ type: 'DEC'})}>-</Button>
-      <Button className="ml-4" onClick={() => dispatch({ type: 'Set', payload: 100 })}>update</Button>
+    <div className="px-4 py-4">
+      <h2>result: {result}</h2>
+      <Button type="primary" onClick={() => setCount1(count1 + 1)}>Change count 1, and count1: {count1}</Button>
+      <Button type="primary" className="ml-4" onClick={() => setCount2(count2 + 1)}>Change count2, and count2: {count2}</Button>
     </div>
   </>
-}
 
+
+}
 export default App
