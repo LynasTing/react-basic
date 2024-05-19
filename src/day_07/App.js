@@ -1,35 +1,56 @@
 import { Button } from "antd"
-import { useMemo, useState } from "react"
+import { memo, useMemo, useState } from "react"
 
-/**
- * 计算斐波那契数列之和
- */
-const fib = n => {
-  console.log(`斐波执行了 + ::>>`, )
-  if(n < 3) {
-    return 1
-  }
-  return fib(n - 2) + fib(n - 1)
+function Son1() {
+  // 此时父组件重新渲染会引起子组件的渲染
+  console.log(`Son渲染了 + ::>>`, )
+  return <>
+    <div className="px-4 py-4 border-red-400">Yep, I'm Son</div>
+  </>
 }
 
-function App() {
-  const [count1, setCount1] = useState(0)
-  const [count2, setCount2] = useState(0)
-  /**
-   * 一般用于在组件重新渲染的时候缓存计算的结果
-   * 这里如果不用useMemo，那么setCount2的执行也会影响fib函数去执行
-   */
-  const result = useMemo(() => {
-    return fib(count1)
-  }, [count1])
+const SonMemo1 = memo(function Son({ count }) {
+  // 使用React.memo，只会在props发生改变时重新渲染
+  // 此处为简单类型的数据实例
+  console.log(`Son渲染了 + ::>>`, )
   return <>
-    <div className="px-4 py-4">
-      <h2>result: {result}</h2>
-      <Button type="primary" onClick={() => setCount1(count1 + 1)}>Change count 1, and count1: {count1}</Button>
-      <Button type="primary" className="ml-4" onClick={() => setCount2(count2 + 1)}>Change count2, and count2: {count2}</Button>
+    <div className="px-4 py-4 border border-red-400">
+      <p>Yep, I'm Son</p>
+      <p>Here is Son prop {count}</p>
     </div>
   </>
+})
+
+const SonMemo = memo(function Son({ list }) {
+  // 使用React.memo，只会在props发生改变时重新渲染
+  // 此处为引用类型的数据实例, 比较的是值的引用地址
+  // 这里虽然对于子组件来说参数没变, 但是父组件本身的重新渲染就重新生成了新的list, 所以子组件也会跟着一起重新渲染
+  console.log(`Son渲染了 + ::>>`, )
+  return <>
+    <div className="px-4 py-4 border border-red-400">
+      <p>Yep, I'm Son</p>
+      <p>Here is Son prop {list}</p>
+    </div>
+  </>
+})
 
 
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  // 使用useMemo可以避免父组件的引用数据改变引发的子组件重新渲染
+  const list = useMemo(() => {
+    return [1, 2, 3]
+  }, [])
+  // const list = [1, 2, 3]
+  return <>
+    <div className="px-4 mx-4 my-4 py-4 border border-blue-400">
+      <SonMemo count={list} />
+      <p>{count}</p>
+      <Button onClick={() => setCount(count + 1)}>Click me !</Button>
+    </div>
+  </>
 }
+
 export default App
