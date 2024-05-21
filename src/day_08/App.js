@@ -1,11 +1,23 @@
-import { forwardRef, useRef } from "react"
+import { forwardRef, useRef, useImperativeHandle } from "react"
 import { Button } from "antd"
 
 const Son = forwardRef((props, ref) => {
+  const inputRef = useRef(null)
+
+  const inputFocus = () => {
+    inputRef.current.focus()
+  }
+
+  useImperativeHandle(ref, () => {
+    return {
+      inputFocus
+    }
+  })
+
   return <>
     <div className="py-4 px-4 border-blue-400">
       <p>I'm son's p !</p>
-      <input type="text" ref={ref} className=" border-yellow-500" />
+      <input type="text" ref={inputRef} className=" border-yellow-500" />
     </div>
   </>
 })
@@ -14,8 +26,7 @@ function App() {
   const fetchSonInput = useRef(null)
 
   const handleBtnClick = () => {
-    fetchSonInput.current.focus()
-    console.log(`fetchSonInput + ::>>`, fetchSonInput)
+    fetchSonInput.current.inputFocus()
   }
   return <>
     <div className="my-4 mx-4 py-4 px-4 border border-red-400">
