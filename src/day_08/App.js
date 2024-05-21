@@ -1,37 +1,24 @@
-import { forwardRef, useRef, useImperativeHandle } from "react"
-import { Button } from "antd"
-
-const Son = forwardRef((props, ref) => {
-  const inputRef = useRef(null)
-
-  const inputFocus = () => {
-    inputRef.current.focus()
+import { Component} from 'react'
+class Counter extends Component {
+  // state = {} 是固定写法
+  state = {
+    count: 1
   }
 
-  useImperativeHandle(ref, () => {
-    return {
-      inputFocus
-    }
-  })
+  setCount = () => {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
 
-  return <>
-    <div className="py-4 px-4 border-blue-400">
-      <p>I'm son's p !</p>
-      <input type="text" ref={inputRef} className=" border-yellow-500" />
-    </div>
-  </>
-})
-
+  render() {
+    return <button onClick={this.setCount}>{this.state.count}</button>
+  }
+}
 function App() {
-  const fetchSonInput = useRef(null)
-
-  const handleBtnClick = () => {
-    fetchSonInput.current.inputFocus()
-  }
   return <>
-    <div className="my-4 mx-4 py-4 px-4 border border-red-400">
-      <Son ref={fetchSonInput} />
-      <Button type="primary" onClick={handleBtnClick}>focus</Button>
+    <div className='my-4 mx-4 border border-blue-400 px-4 py-4'>
+      <Counter />
     </div>
   </>
 }
