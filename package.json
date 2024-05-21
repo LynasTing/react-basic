@@ -22,7 +22,8 @@
     "scss": "^0.2.4",
     "source-map-explorer": "^2.5.3",
     "uuid": "^9.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.5.2"
   },
   "scripts": {
     "start": "craco start",
