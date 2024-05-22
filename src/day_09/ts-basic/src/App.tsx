@@ -1,32 +1,23 @@
-type Props = {
-  onGetMsg: (msg: string) => void
-}
-
-function Son(props: Props) {
-  const { onGetMsg } = props
-  /**
-   * 1. 在组件内部调用
-   */
-  const sonHandleClick = () => {
-    onGetMsg('Hello, I am son')
-  }
-  return <div>
-    <button onClick={(sonHandleClick)}>Click son's button to send son's msg</button>
-  </div>
-}
+import { useEffect, useRef } from "react"
 
 function App() {
+  // 使用useRef时为变量定义html类型
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  /**
-   * 3. 使用函数调用的方式,ts无法再检测类型，需要重新声明类型
-   */
-  const handleFatherMsg = (sonMsg: string) => {
-    console.log(`sonMsg + ::>>`, sonMsg)
-  }
+  const timerId = useRef<number | NodeJS.Timeout>()
+  useEffect(() => {
+    inputRef.current?.focus()
+
+    timerId.current = setInterval(() => {
+      console.log(`1 + ::>>`, )
+    }, 1500)
+
+    return () => {
+      clearInterval(timerId.current)
+    }
+  }, [])
   return <>
-    {/* 2. 使用内联函数的方式，ts可以检测到传参和返回值的类型 */}
-    <Son onGetMsg={(msg) => console.log(`msg + ::>>`, msg)} />
-    <Son onGetMsg={handleFatherMsg} />
+    <input type="text" ref={inputRef} />
   </>
 }
 
