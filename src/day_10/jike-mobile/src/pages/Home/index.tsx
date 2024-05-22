@@ -5,19 +5,20 @@ import HomeList from './HomeList'
 
 const Home = () => {
  const { channels } = useTabs()
+
   return <>
     <div className='tab-container'>
-      <Tabs>
+      <Tabs defaultActiveKey={'0'}>
         {channels.map(item => (
           <Tabs.Tab title={item.name} key={item.id}>
-            <HomeList channel_id={item.id + ''} />
+            <div className='list-container'>
+              <HomeList channel_id={item.id + ''} />
+            </div>
           </Tabs.Tab>
         ))}
       </Tabs>
     </div>
-    <div className='list-container'>
-      
-    </div>
   </>
 }
+
 export default Home

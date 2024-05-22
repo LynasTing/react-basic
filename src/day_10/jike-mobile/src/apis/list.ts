@@ -1,6 +1,6 @@
 import { _request } from "@/utils"
-import type { ChannelRes, ListRes, RequestParams } from '@/types/apis/list'
-import type { Api } from "@/types/apis/basic"
+import type { ChannelRes, ListRes, RequestParams } from '@/types/list'
+import type { Api } from "@/types/basic"
 
 export const getChannelsApi = () => {
   return _request<Api<ChannelRes>>({

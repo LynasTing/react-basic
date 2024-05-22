@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getChannelsApi } from '@/apis/list'
-import type { ChannelItem } from '@/types/apis/list'
+import type { ChannelItem } from '@/types/list'
 
 function useTabs() {
   const [channels, setChannels] = useState<ChannelItem[]>([])
