@@ -1,22 +1,33 @@
 type Props = {
-  name: string,
-  // ReactNode 支持传入多种类型, 包括: ReactElement、string、number、ReactFragment、ReactPortal、boolean、null、undefined
-  children?: React.ReactNode
+  onGetMsg: (msg: string) => void
 }
 
-function Button(props: Props) {
-  const { name, children } = props
-  return <button>name: {name}, children: {children}</button>
+function Son(props: Props) {
+  const { onGetMsg } = props
+  /**
+   * 1. 在组件内部调用
+   */
+  const sonHandleClick = () => {
+    onGetMsg('Hello, I am son')
+  }
+  return <div>
+    <button onClick={(sonHandleClick)}>Click son's button to send son's msg</button>
+  </div>
 }
 
 function App() {
-  return <div>
-    <p>This is a page !</p>
-    <Button name="first" />
-    <Button name="second">
-      <span>I am children </span>
-    </Button>
-  </div>
+
+  /**
+   * 3. 使用函数调用的方式,ts无法再检测类型，需要重新声明类型
+   */
+  const handleFatherMsg = (sonMsg: string) => {
+    console.log(`sonMsg + ::>>`, sonMsg)
+  }
+  return <>
+    {/* 2. 使用内联函数的方式，ts可以检测到传参和返回值的类型 */}
+    <Son onGetMsg={(msg) => console.log(`msg + ::>>`, msg)} />
+    <Son onGetMsg={handleFatherMsg} />
+  </>
 }
 
 export default App
